@@ -2,6 +2,7 @@ package forestry.core.features;
 
 import java.util.ArrayList;
 
+import forestry.core.config.Config;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.Biome;
@@ -26,11 +27,19 @@ public class CoreFeatures {
 	private static final ArrayList<ConfiguredFeature<?, ?>> overworldOres = new ArrayList<ConfiguredFeature<?, ?>>();
 
 	public static void registerOres() {
-		overworldOres.add(register("apatite_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CoreBlocks.RESOURCE_ORE.get(EnumResourceType.APATITE).defaultState(), 36)).range(4).squared().count((56))));
+		// Read config
+		boolean bGenApatite = Config.generateApatiteOre;
+		boolean bGenCopper = Config.generateCopperOre;
+		boolean bGenTin = Config.generateTinOre;
 
-		overworldOres.add(register("copper_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CoreBlocks.RESOURCE_ORE.get(EnumResourceType.COPPER).defaultState(), 6)).range(20).squared().count(32)));
+		if (bGenApatite)
+			overworldOres.add(register("apatite_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CoreBlocks.RESOURCE_ORE.get(EnumResourceType.APATITE).defaultState(), 36)).range(4).squared().count((56))));
 
-		overworldOres.add(register("tin_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CoreBlocks.RESOURCE_ORE.get(EnumResourceType.TIN).defaultState(), 6)).range(20).squared().count(16)));
+		if (bGenCopper)
+			overworldOres.add(register("copper_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CoreBlocks.RESOURCE_ORE.get(EnumResourceType.COPPER).defaultState(), 6)).range(20).squared().count(32)));
+
+		if (bGenTin)
+			overworldOres.add(register("tin_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, CoreBlocks.RESOURCE_ORE.get(EnumResourceType.TIN).defaultState(), 6)).range(20).squared().count(16)));
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
